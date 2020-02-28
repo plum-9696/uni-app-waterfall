@@ -8,7 +8,7 @@
 
 <script>
 // 引入组件
-import waterfall from '@/componets/xi-waterfall/xi-waterfall.vue';
+import waterfall from '@/components/xi-waterfall/xi-waterfall.vue';
 export default {
 	components: { waterfall },
 	data() {

@@ -5,11 +5,13 @@
 
 瀑布流组件,兼容带图片的,每次插入数据会自动取算高度,只适用于固定列的,组件只做了两列,如果有多列可自行修改代码
 
+如果有帮到你,可否帮忙点一个star [github地址](https://github.com/Joey-996/uni-app-waterfall "github")
+
 ## 使用方法
 在 script 中引用组件
 ```
 // 引入组件
-import waterfall from '@/componets/xi-waterfall/xi-waterfall.vue';
+import waterfall from '@/components/xi-waterfall/xi-waterfall.vue';
 export default {
 	components: { waterfall },
 }

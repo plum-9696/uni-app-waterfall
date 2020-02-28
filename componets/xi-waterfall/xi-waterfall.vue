@@ -79,6 +79,12 @@ export default {
 		clear() {
 			this.columnFirst = [];
 			this.columnSecond = [];
+		},
+		//外部调用,添加数据
+		insertData(data){
+			this.tempArray = data;
+			//新增数据
+			this.insert();
 		}
 	},
 	watch: {
@@ -90,7 +96,6 @@ export default {
 			} else if (newVal.length > 0) {
 				//赋值给临时数组
 				this.tempArray = newVal.slice(oldVal.length);
-				console.log(newVal.slice(oldVal.length))
 				//新增数据
 				this.insert();
 			}

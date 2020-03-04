@@ -31,36 +31,37 @@ export default {
 		return {
 			tempArray: [],
 			columnFirst: [],
-			columnSecond: []
+			columnSecond: [],
+			columnFirstHeight: 0,
+			columnSecondHeight: 0
 		};
 	},
 	methods: {
 		// 获取dom元素的高度
-		getDomHeight(selector) {
-			let query = uni.createSelectorQuery().in(this);
-			let height = 0;
-			query
-				.select(selector)
-				.fields(
-					{
-						size: true
-					},
-					data => {
-						height = data.height;
-					}
-				)
-				.exec();
-			return height;
+		async getDomHeight(selector) {
+			return new Promise(resolve => {
+				let query = uni.createSelectorQuery().in(this);
+				query
+					.select(selector)
+					.fields(
+						{
+							size: true
+						},
+						data => {
+							resolve(data.height);
+						}
+					)
+					.exec();
+			});
 		},
 		//新增数据
-		insert() {
+		async insert() {
 			//只有数组内有数据才执行
 			if (this.tempArray.length > 0) {
 				//获取每一列的高度
-				let columnFirstHeight = this.getDomHeight('#columnFirst'),
-					columnSecondHeight = this.getDomHeight('#columnSecond');
+				let columnFirstHeight = await this.getDomHeight('#columnFirst');
+				let columnSecondHeight = await this.getDomHeight('#columnSecond');
 				//获取加入的数据
-				console.log( this.tempArray)
 				let data = this.tempArray.splice(0, 1);
 				if (columnFirstHeight == columnSecondHeight || columnFirstHeight < columnSecondHeight) {
 					//当高度相对,或第一列小于其他列,数据加入到第一列
@@ -81,7 +82,7 @@ export default {
 			this.columnSecond = [];
 		},
 		//外部调用,添加数据
-		insertData(data){
+		insertData(data) {
 			this.tempArray = data;
 			//新增数据
 			this.insert();
@@ -110,10 +111,10 @@ export default {
 	display: flex;
 	align-items: flex-start;
 }
-.container .column{
-	flex:1;
+.container .column {
+	flex: 1;
 }
-.container .column .item image{
+.container .column .item image {
 	width: 100%;
 }
 </style>

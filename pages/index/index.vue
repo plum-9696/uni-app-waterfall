@@ -2,7 +2,10 @@
 	<view class="content">
 		<button @tap="insertData">添加数据</button>
 		<button @tap="list=[]">清空数据</button>
-		<waterfall :list="list"></waterfall>
+		<view style="width: 100%;">
+			<waterfall :list="list"></waterfall>
+		</view>
+		
 	</view>
 </template>
 

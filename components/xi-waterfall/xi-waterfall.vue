@@ -33,7 +33,8 @@ export default {
 			columnFirst: [],
 			columnSecond: [],
 			columnFirstHeight: 0,
-			columnSecondHeight: 0
+			columnSecondHeight: 0,
+			switchInsert: true
 		};
 	},
 	methods: {
@@ -58,6 +59,7 @@ export default {
 		async insert() {
 			//只有数组内有数据才执行
 			if (this.tempArray.length > 0) {
+				this.switchInsert = false;
 				//获取每一列的高度
 				let columnFirstHeight = await this.getDomHeight('#columnFirst');
 				let columnSecondHeight = await this.getDomHeight('#columnSecond');
@@ -74,18 +76,23 @@ export default {
 					//当数据渲染完毕后,可以进行添加,知道临时数据被添加完毕
 					this.insert();
 				});
+			} else {
+				this.switchInsert = true;
 			}
 		},
 		//清除数组
 		clear() {
 			this.columnFirst = [];
 			this.columnSecond = [];
+			this.tempArray = [];
 		},
 		//外部调用,添加数据
 		insertData(data) {
-			this.tempArray = data;
+			this.tempArray = this.tempArray.concat(data);
 			//新增数据
-			this.insert();
+			if (this.switchInsert) {
+				this.insert();
+			}
 		}
 	},
 	watch: {
@@ -96,10 +103,17 @@ export default {
 				this.clear();
 			} else if (newVal.length > 0) {
 				//赋值给临时数组
-				this.tempArray = newVal.slice(oldVal.length);
+				this.tempArray = this.tempArray.concat(newVal.slice(oldVal.length));
 				//新增数据
-				this.insert();
+				if (this.switchInsert) {
+					this.insert();
+				}
 			}
+		}
+	},
+	computed: {
+		currentLength() {
+			return this.columnFirst.length + this.columnSecond.length;
 		}
 	}
 };
